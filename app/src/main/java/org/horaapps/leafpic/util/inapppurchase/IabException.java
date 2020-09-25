@@ -17,11 +17,12 @@ package org.horaapps.leafpic.util.inapppurchase;
 
 /**
  * Exception thrown when something went wrong with in-app billing.
- * An IabException has an associated IabResult (an error).
+ * An IabException has an associated IabResult (an onError).
  * To get the IAB result that caused this exception to be thrown,
  * call {@link #getResult()}.
  */
 public class IabException extends Exception {
+
     IabResult mResult;
 
     public IabException(IabResult r) {
@@ -38,6 +39,6 @@ public class IabException extends Exception {
         this(new IabResult(response, message), cause);
     }
 
-    /** Returns the IAB result (error) that this exception signals. */
+    /** Returns the IAB result (onError) that this exception signals. */
     public IabResult getResult() { return mResult; }
 }

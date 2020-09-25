@@ -32,6 +32,7 @@ import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
 
+import org.horaapps.leafpic.util.ApplicationUtils;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ import java.util.List;
  * @author Bruno Oliveira (Google)
  */
 public class IabHelper {
+
     // Billing response codes
     public static final int BILLING_RESPONSE_RESULT_OK = 0;
     public static final int BILLING_RESPONSE_RESULT_USER_CANCELED = 1;
@@ -82,7 +84,7 @@ public class IabHelper {
     public static final String ITEM_TYPE_INAPP = "inapp";
     public static final String GET_SKU_DETAILS_ITEM_TYPE_LIST = "ITEM_TYPE_LIST";
     private static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE = 3;
-    // IAB Helper error codes
+    // IAB Helper onError codes
     private static final int IABHELPER_ERROR_BASE = -1000;
     private static final int IABHELPER_REMOTE_EXCEPTION = -1001;
     private static final int IABHELPER_BAD_RESPONSE = -1002;
@@ -173,7 +175,7 @@ public class IabHelper {
                                            "-1005:User cancelled/" +
                                            "-1006:Unknown purchase response/" +
                                            "-1007:Missing token/" +
-                                           "-1008:Unknown error/" +
+                                           "-1008:Unknown onError/" +
                                            "-1009:Subscriptions not available/" +
                                            "-1010:Invalid consumption attempt").split("/");
 
@@ -227,7 +229,7 @@ public class IabHelper {
                 if (mDisposed) return;
                 logDebug("Billing service connected.");
                 mService = IInAppBillingService.Stub.asInterface(service);
-                String packageName = mContext.getPackageName();
+                String packageName = ApplicationUtils.getPackageName();
                 try {
                     logDebug("Checking for in-app billing 3 support.");
 
@@ -361,7 +363,7 @@ public class IabHelper {
 
         try {
             logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
-            Bundle buyIntentBundle = mService.getBuyIntent(3, mContext.getPackageName(), sku, itemType, extraData);
+            Bundle buyIntentBundle = mService.getBuyIntent(3, ApplicationUtils.getPackageName(), sku, itemType, extraData);
             int response = getResponseCodeFromBundle(buyIntentBundle);
             if (response != BILLING_RESPONSE_RESULT_OK) {
                 logError("Unable to buy item, Error response: " + getResponseDesc(response));
@@ -494,12 +496,12 @@ public class IabHelper {
     }
 
     /**
-     * Queries the inventory. This will query all owned items from the server, as well as
+     * Queries the inventory. This will getCursor all owned items from the server, as well as
      * information on additional skus, if specified. This method may block or take long to execute.
      *
      * @param querySkuDetails if true, SKU details (price, description, etc) will be queried as well
      *                        as purchase information.
-     * @param moreItemSkus    additional PRODUCT skus to query information on, regardless of ownership.
+     * @param moreItemSkus    additional PRODUCT skus to getCursor information on, regardless of ownership.
      *                        Ignored if null or if querySkuDetails is false.
      * @throws IabException if a problem occurs while refreshing the inventory.
      */
@@ -520,7 +522,7 @@ public class IabHelper {
                 }
             }
 
-            // if subscriptions are supported, then also query for subscriptions
+            // if subscriptions are supported, then also getCursor for subscriptions
             if (mSubscriptionsSupported) {
                 r = queryPurchases(inv, ITEM_TYPE_SUBS);
                 if (r != BILLING_RESPONSE_RESULT_OK) {
@@ -544,8 +546,8 @@ public class IabHelper {
     }
 
     /**
-     * Asynchronous wrapper for inventory query. This will perform an inventory
-     * query as described in {@link #queryInventory}, but will do so asynchronously
+     * Asynchronous wrapper for inventory getCursor. This will perform an inventory
+     * getCursor as described in {@link #queryInventory}, but will do so asynchronously
      * and call back the specified listener upon completion. This method is safe to
      * call from a UI thread.
      *
@@ -615,7 +617,7 @@ public class IabHelper {
             }
 
             logDebug("Consuming sku: " + sku + ", token: " + token);
-            int response = mService.consumePurchase(3, mContext.getPackageName(), token);
+            int response = mService.consumePurchase(3, ApplicationUtils.getPackageName(), token);
             if (response == BILLING_RESPONSE_RESULT_OK) {
                 logDebug("Successfully consumed sku: " + sku);
             } else {
@@ -712,13 +714,13 @@ public class IabHelper {
     private int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases
         logDebug("Querying owned items, item type: " + itemType);
-        logDebug("Package name: " + mContext.getPackageName());
+        logDebug("Package name: " + ApplicationUtils.getPackageName());
         boolean verificationFailed = false;
         String continueToken = null;
 
         do {
             logDebug("Calling getPurchases with continuation token: " + continueToken);
-            Bundle ownedItems = mService.getPurchases(3, mContext.getPackageName(),
+            Bundle ownedItems = mService.getPurchases(3, ApplicationUtils.getPackageName(),
                     itemType, continueToken);
 
             int response = getResponseCodeFromBundle(ownedItems);
@@ -791,7 +793,7 @@ public class IabHelper {
 
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList(GET_SKU_DETAILS_ITEM_LIST, skuList);
-        Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(),
+        Bundle skuDetails = mService.getSkuDetails(3, ApplicationUtils.getPackageName(),
                 itemType, querySkus);
 
         if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
@@ -800,7 +802,7 @@ public class IabHelper {
                 logDebug("getSkuDetails() failed: " + getResponseDesc(response));
                 return response;
             } else {
-                logError("getSkuDetails() returned a bundle with neither an error nor a detail list.");
+                logError("getSkuDetails() returned a bundle with neither an onError nor a detail list.");
                 return IABHELPER_BAD_RESPONSE;
             }
         }
@@ -857,7 +859,7 @@ public class IabHelper {
     }
 
     private void logError(String msg) {
-        Log.e(mDebugTag, "In-app billing error: " + msg);
+        Log.e(mDebugTag, "In-app billing onError: " + msg);
     }
 
     private void logWarn(String msg) {
@@ -895,11 +897,11 @@ public class IabHelper {
     }
 
     /**
-     * Listener that notifies when an inventory query operation completes.
+     * Listener that notifies when an inventory getCursor operation completes.
      */
     public interface QueryInventoryFinishedListener {
         /**
-         * Called to notify that an inventory query operation completed.
+         * Called to notify that an inventory getCursor operation completed.
          *
          * @param result The result of the operation.
          * @param inv    The inventory.
