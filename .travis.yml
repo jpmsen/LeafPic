@@ -1,2 +1,9 @@
 language: android
 dist: trusty
+android:
+    components:
+      - tools
+
+
+      - build-tools-29.0.3
+      - android-27
