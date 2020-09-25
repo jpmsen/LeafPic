@@ -7,3 +7,10 @@ android:
 
       - build-tools-29.0.3
       - android-27
+
+      # Support library
+      - extra-android-support
+      - extra-android-m2repository
+
+script:
+  - chmod +x ./gradlew
