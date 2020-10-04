@@ -2,7 +2,7 @@ language: android
 dist: trusty
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
+  api_key: "1f6e35987446cd960cf3441036a04d9ff3bb86d6"
   file: "release.apk"
   skip_cleanup: true
 
