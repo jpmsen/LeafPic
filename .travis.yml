@@ -3,7 +3,7 @@ dist: trusty
 deploy:
   provider: releases
   api_key: "GITHUB OAUTH TOKEN"
-  file: "FILE TO UPLOAD"
+  file: "release.apk"
   skip_cleanup: true
 
 android:
