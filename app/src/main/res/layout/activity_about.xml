@@ -11,7 +11,7 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
-        android:background="@color/md_dark_appbar"
+        android:background="@color/md_cyan_A700"
         android:windowActionBarOverlay="true" />
 
     <ScrollView
