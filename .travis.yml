@@ -5,7 +5,8 @@ deploy:
   api_key: "1f6e35987446cd960cf3441036a04d9ff3bb86d6"
   file: "release.apk"
   skip_cleanup: true
-
+  on:
+    tags: true
 android:
     components:
       - tools
