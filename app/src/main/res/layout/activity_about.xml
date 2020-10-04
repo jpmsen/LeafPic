@@ -85,14 +85,14 @@
                         android:textSize="@dimen/medium_text" />
 
                     <org.horaapps.liz.ui.ThemedTextView
-                        app:liz_color_style="sub_text"
                         android:id="@+id/about_version_item_sub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="@dimen/sub_small_spacing"
-                        android:text="v1.0"
-                        android:textSize="@dimen/medium_text" />
+                        android:text="v1.2"
+                        android:textSize="@dimen/medium_text"
+                        app:liz_color_style="sub_text" />
 
                 </LinearLayout>
             </org.horaapps.liz.ui.ThemedCardView>
