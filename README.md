@@ -1,6 +1,9 @@
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/leafpic/localized.svg)](https://crowdin.com/project/leafpic)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/HoraApps)
- 
+
+# CI PIPELINE (travis)
+Using Travis pipeline.
+
 
 # LeafPic
 <img src="https://gitlab.com/HoraApps/LeafPic/raw/abdf97052596380b8d4b838c6ab4a7c1bf854522/app/src/main/res/drawable/leaf_pic.png" align="left" width="200" hspace="10" vspace="10">
@@ -37,6 +40,8 @@ We will release apks to test features or to check if bugs have been fixed.
 
 ###### Code 
 If you are a developer and you wish to contribute to the app please fork the project
+and submit a pull request if possible make it on the [dev branch](https://github.com/HoraApps/LeafPic/tree/dev).
+You can trace the status of known issues on [waffle.io](https://waffle.io/HoraApps/LeafPic),
 and submit a pull request on the [dev branch](https://gitlab.com/HoraApps/LeafPic/tree/dev).
 If you want, you can join us on Telegram - send us a message we will add you!
 

@@ -1,2 +1,22 @@
 language: android
 dist: trusty
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "release.apk"
+  skip_cleanup: true
+
+android:
+    components:
+      - tools
+
+
+      - build-tools-29.0.3
+      - android-27
+
+      # Support library
+      - extra-android-support
+      - extra-android-m2repository
+
+script:
+  - chmod +x ./gradlew

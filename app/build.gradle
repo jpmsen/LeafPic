@@ -12,6 +12,8 @@ repositories {
 
 android {
     compileSdkVersion project.sdkVersion
+    buildToolsVersion "29.0.3"
+
     defaultConfig {
         applicationId "org.horaapps.leafpic"
         minSdkVersion 19

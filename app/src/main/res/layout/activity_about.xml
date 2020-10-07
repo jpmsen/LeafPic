@@ -11,7 +11,7 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
-        android:background="@color/md_dark_appbar"
+        android:background="@color/md_cyan_A700"
         android:windowActionBarOverlay="true" />
 
     <ScrollView
@@ -54,7 +54,7 @@
 
                         <ImageView
                             android:layout_width="200dp"
-                            android:layout_height="200dp"
+                            android:layout_height="201dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:padding="@dimen/sub_medium_spacing"
@@ -85,14 +85,14 @@
                         android:textSize="@dimen/medium_text" />
 
                     <org.horaapps.liz.ui.ThemedTextView
-                        app:liz_color_style="sub_text"
                         android:id="@+id/about_version_item_sub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="@dimen/sub_small_spacing"
-                        android:text="v1.0"
-                        android:textSize="@dimen/medium_text" />
+                        android:text="v1.2"
+                        android:textSize="@dimen/medium_text"
+                        app:liz_color_style="sub_text" />
 
                 </LinearLayout>
             </org.horaapps.liz.ui.ThemedCardView>
