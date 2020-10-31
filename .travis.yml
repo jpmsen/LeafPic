@@ -6,7 +6,7 @@ deploy:
   file: "release.apk"
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
 android:
     components:
       - tools
