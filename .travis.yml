@@ -1,2 +1,5 @@
 language: android
 dist: trusty
+
+script:
+    - mvn deploy -Dregistry=https://maven.pkg.github.com/jpmsen -Dtoken=GH_TOKEN
