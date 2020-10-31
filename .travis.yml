@@ -1,5 +1,24 @@
 language: android
 dist: trusty
+deploy:
+  provider: releases
+  api_key: $github_token
+  file: "release.apk"
+  skip_cleanup: true
+  on:
+    tags: true
+android:
+    components:
+      - tools
+
+
+      - build-tools-29.0.3
+      - android-27
+
+      # Support library
+      - extra-android-support
+      - extra-android-m2repository
 
 script:
-    - gradlew installDebug
+  - chmod +x ./gradlew
+  - gradlew installDebug
